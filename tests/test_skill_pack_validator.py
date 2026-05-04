@@ -47,6 +47,8 @@ Public-source demo.
 
 ## Ranked Shortlist
 
+- Risk level: medium
+
 #### Fit Scores
 
 - Research fit: 4/5
@@ -63,6 +65,10 @@ Unknown: quota.
 ## Source Appendix
 
 - Demo source [official]
+
+## Maybe List
+
+## Excluded List
 
 ## Next Actions
 """
@@ -89,6 +95,8 @@ Public-source demo.
 
 - Evidence strength: high
 
+- Risk level: medium
+
 #### Fit Scores
 
 - Research fit: 4/5
@@ -105,6 +113,10 @@ Unknown: quota.
 ## Source Appendix
 
 - Demo source [official]
+
+## Maybe List
+
+## Excluded List
 
 ## Next Actions
 """
@@ -131,6 +143,8 @@ Public-source demo.
 
 ### Rank 1: Prof. One
 
+- Risk level: medium
+
 #### Fit Scores
 
 - Research fit: 4/5
@@ -144,6 +158,8 @@ Inference: likely fit.
 Unknown: quota.
 
 ### Rank 2: Prof. Two
+
+- Risk level: medium
 
 #### Fit Scores
 
@@ -165,6 +181,8 @@ Unknown: quota.
 ## Source Appendix
 
 - Demo source [official]
+
+## Excluded List
 
 ## Next Actions
 """
@@ -189,6 +207,8 @@ Public-source demo.
 
 ## Ranked Shortlist
 
+- Risk level: medium
+
 #### Fit Scores
 
 - Research fit: 4/5
@@ -202,6 +222,10 @@ Public-source demo.
 ## Source Appendix
 
 - Demo source [official]
+
+## Maybe List
+
+## Excluded List
 
 ## Next Actions
 """
@@ -228,6 +252,8 @@ Public-source demo.
 
 ### Rank 1: Prof. One
 
+- Risk level: medium
+
 #### Fit Scores
 
 - Research fit: 4/5
@@ -241,6 +267,8 @@ Inference: likely fit.
 Unknown: quota.
 
 ### Rank 2: Prof. Two
+
+- Risk level: medium
 
 #### Fit Scores
 
@@ -261,6 +289,8 @@ This paragraph has no evidence distinction labels.
 ## Source Appendix
 
 - Demo source [official]
+
+## Maybe List
 
 ## Next Actions
 """
@@ -284,6 +314,8 @@ Public-source demo.
 ## Student Profile
 
 ## Ranked Shortlist
+
+- Risk level: medium
 
 #### Fit Scores
 
@@ -311,6 +343,10 @@ Quota.
 
 - Demo source [official]
 
+## Maybe List
+
+## Excluded List
+
 ## Next Actions
 """
         self.assertEqual(
@@ -328,6 +364,233 @@ Public-source demo.
 ## Student Profile
 
 ## Ranked Shortlist
+
+- Risk level: medium
+
+#### Fit Scores
+
+- Research fit: 4/5
+- Path fit: 4/5
+- Career fit: 4/5
+- Evidence strength: 4/5
+- Risk and uncertainty: 3/5
+
+Fact: supported by official source.
+Inference: likely fit.
+Unknown: quota.
+
+## Risks And Unknowns
+
+## Source Appendix
+
+- Demo source [official/bibliographic]
+
+## Maybe List
+
+## Excluded List
+
+## Next Actions
+"""
+        self.assertEqual(
+            validate_report_quality(
+                text,
+                "demo.md",
+                set(["official", "bibliographic"]),
+            ),
+            [],
+        )
+
+    def test_validate_report_quality_rejects_unknown_source_label(self):
+        text = """# Demo
+
+## Generation Note
+
+Public-source demo.
+
+## Student Profile
+
+## Ranked Shortlist
+
+- Risk level: medium
+
+#### Fit Scores
+
+- Research fit: 4/5
+- Path fit: 4/5
+- Career fit: 4/5
+- Evidence strength: 4/5
+- Risk and uncertainty: 3/5
+
+Fact: supported by official source.
+Inference: likely fit.
+Unknown: quota.
+
+## Risks And Unknowns
+
+## Source Appendix
+
+- Demo source [official/blog]
+
+## Maybe List
+
+## Excluded List
+
+## Next Actions
+"""
+        self.assertEqual(
+            validate_report_quality(text, "demo.md", set(["official"])),
+            [ValidationIssue("demo.md", "invalid source label: blog")],
+        )
+
+    def test_validate_report_quality_checks_source_labels_before_line_end(self):
+        text = """# Demo
+
+## Generation Note
+
+Public-source demo.
+
+## Student Profile
+
+## Ranked Shortlist
+
+- Risk level: medium
+
+#### Fit Scores
+
+- Research fit: 4/5
+- Path fit: 4/5
+- Career fit: 4/5
+- Evidence strength: 4/5
+- Risk and uncertainty: 3/5
+
+Fact: supported by official source.
+Inference: likely fit.
+Unknown: quota.
+
+## Risks And Unknowns
+
+## Source Appendix
+
+- [blog] source details
+
+## Maybe List
+
+## Excluded List
+
+## Next Actions
+"""
+        self.assertEqual(
+            validate_report_quality(text, "demo.md", set(["official"])),
+            [ValidationIssue("demo.md", "invalid source label: blog")],
+        )
+
+    def test_validate_report_quality_requires_source_appendix_entry_label(self):
+        text = """# Demo
+
+## Generation Note
+
+Public-source demo.
+
+## Student Profile
+
+## Ranked Shortlist
+
+- Risk level: medium
+
+#### Fit Scores
+
+- Research fit: 4/5
+- Path fit: 4/5
+- Career fit: 4/5
+- Evidence strength: 4/5
+- Risk and uncertainty: 3/5
+
+Fact: supported by official source.
+Inference: likely fit.
+Unknown: quota.
+
+## Risks And Unknowns
+
+## Source Appendix
+
+- Demo source without label
+
+## Maybe List
+
+## Excluded List
+
+## Next Actions
+"""
+        self.assertEqual(
+            validate_report_quality(text, "demo.md", set(["official"])),
+            [ValidationIssue("demo.md", "source appendix entry missing label")],
+        )
+
+    def test_validate_report_quality_rejects_synthetic_language_in_real_demo(self):
+        text = """# Demo
+
+## Generation Note
+
+This public-source demo mentions a synthetic validation fixture.
+
+## Student Profile
+
+## Ranked Shortlist
+
+- Risk level: medium
+
+#### Fit Scores
+
+- Research fit: 4/5
+- Path fit: 4/5
+- Career fit: 4/5
+- Evidence strength: 4/5
+- Risk and uncertainty: 3/5
+
+Fact: supported by official source.
+Inference: likely fit.
+Unknown: quota.
+
+## Risks And Unknowns
+
+## Source Appendix
+
+- Demo source [official]
+
+## Maybe List
+
+## Excluded List
+
+## Next Actions
+"""
+        self.assertEqual(
+            validate_report_quality(
+                text,
+                "real_hkust_trustworthy_llm_demo.md",
+                set(["official"]),
+            ),
+            [
+                ValidationIssue(
+                    "real_hkust_trustworthy_llm_demo.md",
+                    "real demo report contains synthetic fixture language",
+                )
+            ],
+        )
+
+    def test_validate_report_quality_requires_maybe_and_excluded_lists(self):
+        text = """# Demo
+
+## Generation Note
+
+Public-source demo.
+
+## Student Profile
+
+## Ranked Shortlist
+
+### Rank 1: Prof. One
+
+- Risk level: medium
 
 #### Fit Scores
 
@@ -352,13 +615,16 @@ Unknown: quota.
         self.assertEqual(
             validate_report_quality(
                 text,
-                "demo.md",
+                "real_demo.md",
                 set(["official", "bibliographic"]),
             ),
-            [],
+            [
+                ValidationIssue("real_demo.md", "missing section: ## Maybe List"),
+                ValidationIssue("real_demo.md", "missing section: ## Excluded List"),
+            ],
         )
 
-    def test_validate_report_quality_rejects_unknown_source_label(self):
+    def test_validate_report_quality_rejects_invalid_risk_level(self):
         text = """# Demo
 
 ## Generation Note
@@ -369,41 +635,9 @@ Public-source demo.
 
 ## Ranked Shortlist
 
-#### Fit Scores
+### Rank 1: Prof. One
 
-- Research fit: 4/5
-- Path fit: 4/5
-- Career fit: 4/5
-- Evidence strength: 4/5
-- Risk and uncertainty: 3/5
-
-Fact: supported by official source.
-Inference: likely fit.
-Unknown: quota.
-
-## Risks And Unknowns
-
-## Source Appendix
-
-- Demo source [official/blog]
-
-## Next Actions
-"""
-        self.assertEqual(
-            validate_report_quality(text, "demo.md", set(["official"])),
-            [ValidationIssue("demo.md", "invalid source label: blog")],
-        )
-
-    def test_validate_report_quality_checks_source_labels_before_line_end(self):
-        text = """# Demo
-
-## Generation Note
-
-Public-source demo.
-
-## Student Profile
-
-## Ranked Shortlist
+- Risk level: safe
 
 #### Fit Scores
 
@@ -421,94 +655,115 @@ Unknown: quota.
 
 ## Source Appendix
 
-- [blog] source details
+- Demo source [official/bibliographic]
 
-## Next Actions
-"""
-        self.assertEqual(
-            validate_report_quality(text, "demo.md", set(["official"])),
-            [ValidationIssue("demo.md", "invalid source label: blog")],
-        )
+## Maybe List
 
-    def test_validate_report_quality_requires_source_appendix_entry_label(self):
-        text = """# Demo
-
-## Generation Note
-
-Public-source demo.
-
-## Student Profile
-
-## Ranked Shortlist
-
-#### Fit Scores
-
-- Research fit: 4/5
-- Path fit: 4/5
-- Career fit: 4/5
-- Evidence strength: 4/5
-- Risk and uncertainty: 3/5
-
-Fact: supported by official source.
-Inference: likely fit.
-Unknown: quota.
-
-## Risks And Unknowns
-
-## Source Appendix
-
-- Demo source without label
-
-## Next Actions
-"""
-        self.assertEqual(
-            validate_report_quality(text, "demo.md", set(["official"])),
-            [ValidationIssue("demo.md", "source appendix entry missing label")],
-        )
-
-    def test_validate_report_quality_rejects_synthetic_language_in_real_demo(self):
-        text = """# Demo
-
-## Generation Note
-
-This public-source demo mentions a synthetic validation fixture.
-
-## Student Profile
-
-## Ranked Shortlist
-
-#### Fit Scores
-
-- Research fit: 4/5
-- Path fit: 4/5
-- Career fit: 4/5
-- Evidence strength: 4/5
-- Risk and uncertainty: 3/5
-
-Fact: supported by official source.
-Inference: likely fit.
-Unknown: quota.
-
-## Risks And Unknowns
-
-## Source Appendix
-
-- Demo source [official]
+## Excluded List
 
 ## Next Actions
 """
         self.assertEqual(
             validate_report_quality(
                 text,
-                "real_hkust_trustworthy_llm_demo.md",
-                set(["official"]),
+                "demo.md",
+                set(["official", "bibliographic"]),
             ),
-            [
-                ValidationIssue(
-                    "real_hkust_trustworthy_llm_demo.md",
-                    "real demo report contains synthetic fixture language",
-                )
-            ],
+            [ValidationIssue("demo.md", "invalid risk level: safe")],
+        )
+
+    def test_validate_report_quality_accepts_medium_high_risk_level(self):
+        text = """# Demo
+
+## Generation Note
+
+Public-source demo.
+
+## Student Profile
+
+## Ranked Shortlist
+
+### Rank 1: Prof. One
+
+- Risk level: medium_high
+
+#### Fit Scores
+
+- Research fit: 4/5
+- Path fit: 4/5
+- Career fit: 4/5
+- Evidence strength: 4/5
+- Risk and uncertainty: 3/5
+
+Fact: supported by official source.
+Inference: likely fit.
+Unknown: quota.
+
+## Risks And Unknowns
+
+## Source Appendix
+
+- Demo source [official/bibliographic]
+
+## Maybe List
+
+## Excluded List
+
+## Next Actions
+"""
+        self.assertEqual(
+            validate_report_quality(
+                text,
+                "demo.md",
+                set(["official", "bibliographic"]),
+            ),
+            [],
+        )
+
+    def test_validate_report_quality_requires_risk_level(self):
+        text = """# Demo
+
+## Generation Note
+
+Public-source demo.
+
+## Student Profile
+
+## Ranked Shortlist
+
+### Rank 1: Prof. One
+
+#### Fit Scores
+
+- Research fit: 4/5
+- Path fit: 4/5
+- Career fit: 4/5
+- Evidence strength: 4/5
+- Risk and uncertainty: 3/5
+
+Fact: supported by official source.
+Inference: likely fit.
+Unknown: quota.
+
+## Risks And Unknowns
+
+## Source Appendix
+
+- Demo source [official/bibliographic]
+
+## Maybe List
+
+## Excluded List
+
+## Next Actions
+"""
+        self.assertEqual(
+            validate_report_quality(
+                text,
+                "demo.md",
+                set(["official", "bibliographic"]),
+            ),
+            [ValidationIssue("demo.md", "missing risk level")],
         )
 
 

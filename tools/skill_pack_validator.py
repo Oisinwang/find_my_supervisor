@@ -57,7 +57,9 @@ REPORT_COMMON_REQUIRED_SECTIONS = [
     "## Source Appendix",
     "## Next Actions",
 ]
+REPORT_REQUIRED_LIST_SECTIONS = ["## Maybe List", "## Excluded List"]
 REPORT_NOTE_SECTIONS = ["## Synthetic Fixture Notice", "## Generation Note"]
+ALLOWED_RISK_LEVELS = set(["low", "medium", "medium_high", "high", "unknown"])
 FIT_SCORE_LABELS = [
     "Research fit",
     "Path fit",
@@ -122,6 +124,33 @@ def validate_markdown_sections(text, required_sections, location):
     for section in required_sections:
         if section not in text:
             issues.append(ValidationIssue(location, "missing section: {}".format(section)))
+    return issues
+
+
+def validate_required_report_lists(text, location):
+    return validate_markdown_sections(text, REPORT_REQUIRED_LIST_SECTIONS, location)
+
+
+def extract_risk_level(section):
+    match = re.search(r"(?im)^\s*[-*]\s*Risk level\s*:\s*([^\s]+)\s*$", section)
+    if not match:
+        return None
+    return match.group(1).lower()
+
+
+def validate_risk_levels(text, location):
+    issues = []
+    rank_sections = extract_rank_sections(text)
+    if not rank_sections:
+        rank_sections = [text]
+    for section in rank_sections:
+        risk_level = extract_risk_level(section)
+        if risk_level is None:
+            issues.append(ValidationIssue(location, "missing risk level"))
+        elif risk_level not in ALLOWED_RISK_LEVELS:
+            issues.append(
+                ValidationIssue(location, "invalid risk level: {}".format(risk_level))
+            )
     return issues
 
 
@@ -303,6 +332,8 @@ def validate_report_quality(text, location, allowed_source_labels):
                 "missing section: ## Synthetic Fixture Notice or ## Generation Note",
             )
         )
+    issues.extend(validate_required_report_lists(text, location))
+    issues.extend(validate_risk_levels(text, location))
     issues.extend(validate_fit_scores(text, location))
     issues.extend(validate_evidence_lines(text, location))
     issues.extend(validate_source_appendix_labels(text, location, allowed_source_labels))
