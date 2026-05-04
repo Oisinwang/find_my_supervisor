@@ -120,7 +120,7 @@ skills/find-my-supervisor/
 - 来源附录：例如 `official`、`bibliographic`、`lab_or_homepage`、`community`、`unknown`
 - 建议问导师的问题
 - 建议问师兄师姐的问题
-- 下一步 shortlist 和联系策略
+- 下一步 shortlist、核查问题和个性化沟通准备
 
 ## 数学方向如何评估
 
@@ -145,6 +145,17 @@ skills/find-my-supervisor/
 - `skills/find-my-supervisor/examples/reports/real_mainland_math_demo.md`
 
 其中 HKUST demo 的窄场景是 `HKUST + trustworthy LLM/NLP reasoning + direct PhD / research MPhil`；大陆数学 demo 的窄场景是 `浙江大学数学科学学院 + inverse problems / wave scattering / scientific computing + 直博`。真实 demo 只使用公开网页、官方页面和公开 publication/profile 页面，不使用社区评价。
+
+## 如何展示/传播这个项目
+
+如果要向同学、老师或技术用户介绍这个项目，建议把它讲成“导师尽调 skill”，而不是导师评价网、套磁神器或网站产品。
+
+可以从两份中文材料开始：
+
+- [中文发布说明](docs/launch-note.zh-CN.md)：适合放在项目介绍、社群转发或演示前阅读，包含一句话定位、适合谁、不适合谁、使用步骤、示例输入、输出说明和安全边界。
+- [中文演示脚本](docs/demo-script.zh-CN.md)：适合录 60-90 秒视频或做图文演示，按“定位 -> 输入 -> 输出 -> 安全边界 -> 技术结构”的顺序讲清楚。
+
+展示时建议直接打开一个真实 demo 报告，例如 HKUST trustworthy LLM/NLP 场景或浙江大学计算数学/反问题场景。先说明学生 profile 和公开来源约束，再展示 shortlist、fit scores、Fact / Inference / Unknown、Questions To Ask 和 Source Appendix。重点不是“这个导师好不好”，而是“为什么这个候选人可能匹配、证据来自哪里、还有哪些未知项需要继续核查”。
 
 ## 本地校验
 
