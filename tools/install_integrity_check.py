@@ -20,6 +20,8 @@ REQUIRED_FILES = [
     "references/source-protocol.md",
     "references/risk-policy.md",
     "references/report-template.md",
+    "references/report-quality-rubric.md",
+    "references/failure-modes.md",
     "references/rubrics/cs-ai.md",
     "references/rubrics/math-subfields.md",
     "schemas/student-search-profile.schema.json",

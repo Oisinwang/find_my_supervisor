@@ -16,6 +16,8 @@ For examples only, state that names and sources are synthetic. For real reports,
 
 ## Ranked Shortlist
 
+Use report-quality-rubric.md and failure-modes.md before finalizing a report. A ranked candidate should have enough source evidence to support the recommendation, and uncertainty should be explicit rather than hidden.
+
 For each recommended supervisor:
 
 ### Rank N: Supervisor Name
@@ -28,6 +30,7 @@ For each recommended supervisor:
 - Best fit for:
 - Evidence strength:
 - Risk level:
+  Allowed values: low, medium, medium_high, high, unknown.
 
 #### Fit Scores
 

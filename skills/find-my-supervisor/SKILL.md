@@ -66,6 +66,8 @@ Produce a Markdown report using `references/report-template.md`. Include:
 - questions to ask current students or alumni
 - next action plan
 
+Before finalizing a report, check it against `references/report-quality-rubric.md` and avoid the patterns in `references/failure-modes.md`.
+
 ## References
 
 Currently available references:
@@ -75,6 +77,8 @@ Currently available references:
 - `references/source-protocol.md`
 - `references/risk-policy.md`
 - `references/report-template.md`
+- `references/report-quality-rubric.md`
+- `references/failure-modes.md`
 - `references/rubrics/cs-ai.md`
 - `references/rubrics/math-subfields.md`
 - `schemas/student-search-profile.schema.json`
