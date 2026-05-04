@@ -1,0 +1,13 @@
+{
+  "field": "math",
+  "subfield": "statistics",
+  "application_path": "master_recommendation",
+  "target_scope": ["Shanghai 985 universities", "HKU", "CUHK"],
+  "research_interests": ["high-dimensional statistics", "causal inference", "statistical machine learning"],
+  "career_orientation": "quant_finance",
+  "background_summary": "985 mathematics major, rank top 20%, one statistics course project, strong probability background, good Python and R skills.",
+  "preferences": {
+    "advisor_style": "balanced theory and application",
+    "risk_tolerance": "medium"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReportSummary",
+  "type": "object",
+  "required": ["student_profile", "ranked_shortlist", "maybe_list", "excluded_list", "source_count", "generated_at"],
+  "properties": {
+    "student_profile": {"$ref": "student-search-profile.schema.json"},
+    "ranked_shortlist": {"type": "array", "items": {"$ref": "supervisor-fit-assessment.schema.json"}},
+    "maybe_list": {"type": "array", "items": {"$ref": "supervisor-fit-assessment.schema.json"}},
+    "excluded_list": {"type": "array", "items": {"$ref": "supervisor-fit-assessment.schema.json"}},
+    "source_count": {"type": "integer"},
+    "generated_at": {"type": "string"}
+  }
+}

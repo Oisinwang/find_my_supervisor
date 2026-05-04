@@ -1,0 +1,13 @@
+{
+  "field": "math",
+  "subfield": "computational_mathematics",
+  "application_path": "research_master",
+  "target_scope": ["Zhejiang University", "Fudan University", "CAS/UCAS institutes"],
+  "research_interests": ["numerical analysis", "scientific computing", "inverse problems"],
+  "career_orientation": "academic",
+  "background_summary": "985 mathematics student, rank top 15%, completed numerical analysis and PDE coursework, comfortable with MATLAB and Python.",
+  "preferences": {
+    "advisor_style": "method-focused group with active seminars",
+    "risk_tolerance": "low"
+  }
+}

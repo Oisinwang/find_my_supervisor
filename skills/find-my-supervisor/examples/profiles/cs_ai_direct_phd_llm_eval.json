@@ -1,0 +1,13 @@
+{
+  "field": "cs_ai",
+  "subfield": "nlp_llm_evaluation",
+  "application_path": "direct_phd",
+  "target_scope": ["985 universities", "HKUST"],
+  "research_interests": ["LLM evaluation", "trustworthy AI", "reasoning benchmarks"],
+  "career_orientation": "industry_research",
+  "background_summary": "985 computer science student, rank top 10%, one NLP research project, strong Python and machine learning foundation.",
+  "preferences": {
+    "advisor_style": "active lab with visible student publication record",
+    "risk_tolerance": "medium"
+  }
+}

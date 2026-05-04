@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CandidateSupervisor",
+  "type": "object",
+  "required": ["name", "institution", "unit", "source_urls", "research_tags"],
+  "properties": {
+    "name": {"type": "string"},
+    "institution": {"type": "string"},
+    "unit": {"type": "string"},
+    "title": {"type": "string"},
+    "supervisor_eligibility": {"type": "string"},
+    "contact": {"type": "string"},
+    "source_urls": {"type": "array", "items": {"type": "string"}},
+    "research_tags": {"type": "array", "items": {"type": "string"}}
+  }
+}

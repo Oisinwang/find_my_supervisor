@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StudentSearchProfile",
+  "type": "object",
+  "required": ["field", "subfield", "application_path", "target_scope", "research_interests", "career_orientation", "background_summary"],
+  "properties": {
+    "field": {"type": "string", "enum": ["cs_ai", "math"]},
+    "subfield": {"type": "string"},
+    "application_path": {"type": "string", "enum": ["master_recommendation", "direct_phd", "research_master", "unsure"]},
+    "target_scope": {"type": "array", "items": {"type": "string"}},
+    "research_interests": {"type": "array", "items": {"type": "string"}},
+    "career_orientation": {"type": "string", "enum": ["academic", "industry_research", "industry_engineering", "quant_finance", "teaching", "unsure"]},
+    "background_summary": {"type": "string"},
+    "preferences": {"type": "object"}
+  }
+}

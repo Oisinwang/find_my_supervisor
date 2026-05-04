@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SupervisorEvidenceProfile",
+  "type": "object",
+  "required": ["candidate", "recent_work", "research_summary", "evidence", "unknowns"],
+  "properties": {
+    "candidate": {"$ref": "candidate-supervisor.schema.json"},
+    "recent_work": {"type": "array", "items": {"type": "object"}},
+    "research_summary": {"type": "string"},
+    "evidence": {"type": "array", "items": {"type": "object"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}}
+  }
+}

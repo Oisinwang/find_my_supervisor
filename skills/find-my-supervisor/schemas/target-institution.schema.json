@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TargetInstitution",
+  "type": "object",
+  "required": ["canonical_name", "aliases", "region", "institution_type"],
+  "properties": {
+    "canonical_name": {"type": "string"},
+    "aliases": {"type": "array", "items": {"type": "string"}},
+    "region": {"type": "string"},
+    "institution_type": {"type": "string", "enum": ["mainland_985", "cas_ucas", "hong_kong_research_university", "other_user_requested"]},
+    "departments_or_institutes": {"type": "array", "items": {"type": "string"}}
+  }
+}

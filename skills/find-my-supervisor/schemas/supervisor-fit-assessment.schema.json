@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SupervisorFitAssessment",
+  "type": "object",
+  "required": ["name", "overall_recommendation", "scores", "rationale", "risks", "next_questions"],
+  "properties": {
+    "name": {"type": "string"},
+    "overall_recommendation": {"type": "string", "enum": ["strong_recommend", "recommend", "maybe", "exclude"]},
+    "scores": {"type": "object"},
+    "rationale": {"type": "string"},
+    "risks": {"type": "array", "items": {"type": "string"}},
+    "next_questions": {"type": "array", "items": {"type": "string"}}
+  }
+}
