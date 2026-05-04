@@ -77,6 +77,16 @@ REAL_REPORT_SYNTHETIC_PHRASES = [
     "prof. synthetic",
     "synthetic sources",
 ]
+REAL_REPORT_CERTAINTY_PHRASES = [
+    "guaranteed admission",
+    "definitely accepts",
+    "safe supervisor",
+    "bad supervisor",
+    "will admit",
+    "一定录取",
+    "稳录",
+    "必收",
+]
 REFERENCE_REQUIRED_FILES = {
     "source-protocol.md": [
         "## Source Priority",
@@ -189,6 +199,10 @@ def extract_source_appendix(text):
     return text[start:]
 
 
+def remove_markdown_links(text):
+    return re.sub(r"\[[^\[\]]+\]\([^\(\)]+\)", "", text)
+
+
 def extract_ranked_shortlist(text):
     match = re.search(r"(?im)^## Ranked Shortlist\s*$", text)
     if not match:
@@ -287,7 +301,8 @@ def validate_source_appendix_labels(text, location, allowed_source_labels):
         stripped = line.strip()
         if not stripped or stripped.startswith("#") or not stripped.startswith(("-", "*")):
             continue
-        label_matches = list(re.finditer(r"\[([^\[\]]+)\]", stripped))
+        label_text = remove_markdown_links(stripped)
+        label_matches = list(re.finditer(r"\[([^\[\]]+)\]", label_text))
         if not label_matches:
             missing_label = True
             continue
@@ -322,6 +337,21 @@ def validate_real_demo_language(text, location):
     return []
 
 
+def validate_real_demo_certainty_language(text, location):
+    if not is_real_demo_report(location):
+        return []
+    lowered = text.lower()
+    for phrase in REAL_REPORT_CERTAINTY_PHRASES:
+        if phrase.lower() in lowered:
+            return [
+                ValidationIssue(
+                    location,
+                    "real demo report contains admissions-certainty language: {}".format(phrase),
+                )
+            ]
+    return []
+
+
 def validate_report_quality(text, location, allowed_source_labels):
     issues = []
     issues.extend(validate_markdown_sections(text, REPORT_COMMON_REQUIRED_SECTIONS, location))
@@ -338,6 +368,7 @@ def validate_report_quality(text, location, allowed_source_labels):
     issues.extend(validate_evidence_lines(text, location))
     issues.extend(validate_source_appendix_labels(text, location, allowed_source_labels))
     issues.extend(validate_real_demo_language(text, location))
+    issues.extend(validate_real_demo_certainty_language(text, location))
     return issues
 
 

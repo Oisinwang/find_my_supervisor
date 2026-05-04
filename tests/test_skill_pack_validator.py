@@ -577,6 +577,109 @@ Unknown: quota.
             ],
         )
 
+    def test_validate_report_quality_rejects_admissions_certainty_in_real_demo(self):
+        text = """# Demo
+
+## Generation Note
+
+Public-source demo.
+
+## Student Profile
+
+## Ranked Shortlist
+
+### Rank 1: Prof. One
+
+- Risk level: medium
+
+#### Fit Scores
+
+- Research fit: 4/5
+- Path fit: 4/5
+- Career fit: 4/5
+- Evidence strength: 4/5
+- Risk and uncertainty: 3/5
+
+Fact: supported by official source.
+Inference: This report says guaranteed admission.
+Unknown: quota.
+
+## Maybe List
+
+## Excluded List
+
+## Risks And Unknowns
+
+## Source Appendix
+
+- Faculty profile [official]
+- Publication page [bibliographic]
+
+## Next Actions
+"""
+        self.assertEqual(
+            validate_report_quality(
+                text,
+                "real_demo.md",
+                set(["official", "bibliographic"]),
+            ),
+            [
+                ValidationIssue(
+                    "real_demo.md",
+                    "real demo report contains admissions-certainty language: guaranteed admission",
+                )
+            ],
+        )
+
+    def test_validate_report_quality_ignores_markdown_link_text_for_source_labels(self):
+        text = """# Demo
+
+## Generation Note
+
+Public-source demo.
+
+## Student Profile
+
+## Ranked Shortlist
+
+### Rank 1: Prof. One
+
+- Risk level: medium
+
+#### Fit Scores
+
+- Research fit: 4/5
+- Path fit: 4/5
+- Career fit: 4/5
+- Evidence strength: 4/5
+- Risk and uncertainty: 3/5
+
+Fact: supported by official source.
+Inference: likely fit.
+Unknown: quota.
+
+## Maybe List
+
+## Excluded List
+
+## Risks And Unknowns
+
+## Source Appendix
+
+- [Faculty profile](https://example.edu/faculty) [official]
+- [Publication page](https://example.org/paper) [bibliographic]
+
+## Next Actions
+"""
+        self.assertEqual(
+            validate_report_quality(
+                text,
+                "real_demo.md",
+                set(["official", "bibliographic"]),
+            ),
+            [],
+        )
+
     def test_validate_report_quality_requires_maybe_and_excluded_lists(self):
         text = """# Demo
 
