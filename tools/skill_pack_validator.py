@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 
@@ -48,6 +49,32 @@ REPORT_REQUIRED_SECTIONS = [
     "## Source Appendix",
     "## Next Actions",
 ]
+REPORT_COMMON_REQUIRED_SECTIONS = [
+    "## Student Profile",
+    "## Ranked Shortlist",
+    "#### Fit Scores",
+    "## Risks And Unknowns",
+    "## Source Appendix",
+    "## Next Actions",
+]
+REPORT_NOTE_SECTIONS = ["## Synthetic Fixture Notice", "## Generation Note"]
+FIT_SCORE_LABELS = [
+    "Research fit",
+    "Path fit",
+    "Career fit",
+    "Evidence strength",
+    "Risk and uncertainty",
+]
+EVIDENCE_LINE_LABELS = ["Fact", "Inference", "Unknown"]
+REAL_REPORT_SYNTHETIC_PHRASES = [
+    "synthetic fixture notice",
+    "synthetic validation fixture",
+    "supervisor names, papers, labs, and urls are fictional",
+    "supervisor names, papers, seminars, and urls are fictional",
+    "must not be used as real application advice",
+    "prof. synthetic",
+    "synthetic sources",
+]
 REFERENCE_REQUIRED_FILES = {
     "source-protocol.md": [
         "## Source Priority",
@@ -95,6 +122,191 @@ def validate_markdown_sections(text, required_sections, location):
     for section in required_sections:
         if section not in text:
             issues.append(ValidationIssue(location, "missing section: {}".format(section)))
+    return issues
+
+
+def extract_allowed_source_labels(text):
+    labels = set()
+    in_labels = False
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped == "## Evidence Labels":
+            in_labels = True
+            continue
+        if in_labels and stripped.startswith("## "):
+            break
+        if in_labels:
+            match = re.match(r"^-\s+([A-Za-z0-9_]+)\s*$", stripped)
+            if match:
+                labels.add(match.group(1))
+    return labels
+
+
+def load_allowed_source_labels(root):
+    path = root / "skills" / "find-my-supervisor" / "references" / "source-protocol.md"
+    if not path.exists():
+        return set()
+    return extract_allowed_source_labels(path.read_text(encoding="utf-8"))
+
+
+def extract_source_appendix(text):
+    match = re.search(r"(?im)^## Source Appendix\s*$", text)
+    if not match:
+        return ""
+    start = match.end()
+    next_heading = re.search(r"(?im)^##\s+", text[start:])
+    if next_heading:
+        return text[start : start + next_heading.start()]
+    return text[start:]
+
+
+def extract_ranked_shortlist(text):
+    match = re.search(r"(?im)^## Ranked Shortlist\s*$", text)
+    if not match:
+        return ""
+    start = match.end()
+    next_heading = re.search(r"(?im)^##\s+", text[start:])
+    if next_heading:
+        return text[start : start + next_heading.start()]
+    return text[start:]
+
+
+def extract_rank_sections(text):
+    ranked_shortlist = extract_ranked_shortlist(text)
+    if not ranked_shortlist:
+        return []
+    matches = list(re.finditer(r"(?im)^### Rank\s+", ranked_shortlist))
+    sections = []
+    for index, match in enumerate(matches):
+        start = match.start()
+        if index + 1 < len(matches):
+            end = matches[index + 1].start()
+        else:
+            end = len(ranked_shortlist)
+        sections.append(ranked_shortlist[start:end])
+    return sections
+
+
+def extract_fit_scores_block(text):
+    match = re.search(r"(?im)^#### Fit Scores\s*$", text)
+    if not match:
+        return ""
+    start = match.end()
+    next_heading = re.search(r"(?im)^#{2,4}\s+", text[start:])
+    if next_heading:
+        return text[start : start + next_heading.start()]
+    return text[start:]
+
+
+def validate_fit_scores_in_text(text, location):
+    issues = []
+    fit_scores_block = extract_fit_scores_block(text)
+    for label in FIT_SCORE_LABELS:
+        pattern = r"(?im)^\s*(?:[-*]\s*)?{}\s*:".format(re.escape(label))
+        if not re.search(pattern, fit_scores_block):
+            issues.append(ValidationIssue(location, "missing fit score: {}".format(label)))
+    return issues
+
+
+def validate_fit_scores(text, location):
+    issues = []
+    rank_sections = extract_rank_sections(text)
+    if not rank_sections:
+        rank_sections = [text]
+    for section in rank_sections:
+        issues.extend(validate_fit_scores_in_text(section, location))
+    return issues
+
+
+def validate_evidence_lines_in_text(text, location):
+    missing = []
+    for label in EVIDENCE_LINE_LABELS:
+        escaped_label = re.escape(label)
+        heading_pattern = r"(?im)^\s*#{{2,6}}\s*{}s?\s*$".format(escaped_label)
+        line_pattern = r"(?im)^\s*(?:[-*]\s*)?{}s?\s*:".format(escaped_label)
+        if not (
+            re.search(heading_pattern, text)
+            or re.search(line_pattern, text)
+        ):
+            missing.append(label)
+    if missing:
+        return [
+            ValidationIssue(
+                location,
+                "missing fact/inference/unknown evidence lines",
+            )
+        ]
+    return []
+
+
+def validate_evidence_lines(text, location):
+    issues = []
+    rank_sections = extract_rank_sections(text)
+    if not rank_sections:
+        rank_sections = [text]
+    for section in rank_sections:
+        issues.extend(validate_evidence_lines_in_text(section, location))
+    return issues
+
+
+def validate_source_appendix_labels(text, location, allowed_source_labels):
+    issues = []
+    appendix = extract_source_appendix(text)
+    seen_invalid = set()
+    missing_label = False
+    for line in appendix.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or not stripped.startswith(("-", "*")):
+            continue
+        label_matches = list(re.finditer(r"\[([^\[\]]+)\]", stripped))
+        if not label_matches:
+            missing_label = True
+            continue
+        for label_match in label_matches:
+            for label in label_match.group(1).split("/"):
+                atomic_label = label.strip()
+                if atomic_label and atomic_label not in allowed_source_labels:
+                    seen_invalid.add(atomic_label)
+    if missing_label:
+        issues.append(ValidationIssue(location, "source appendix entry missing label"))
+    for label in sorted(seen_invalid):
+        issues.append(ValidationIssue(location, "invalid source label: {}".format(label)))
+    return issues
+
+
+def is_real_demo_report(location):
+    return Path(location).name.startswith("real_")
+
+
+def validate_real_demo_language(text, location):
+    if not is_real_demo_report(location):
+        return []
+    lowered = text.lower()
+    for phrase in REAL_REPORT_SYNTHETIC_PHRASES:
+        if phrase in lowered:
+            return [
+                ValidationIssue(
+                    location,
+                    "real demo report contains synthetic fixture language",
+                )
+            ]
+    return []
+
+
+def validate_report_quality(text, location, allowed_source_labels):
+    issues = []
+    issues.extend(validate_markdown_sections(text, REPORT_COMMON_REQUIRED_SECTIONS, location))
+    if not any(section in text for section in REPORT_NOTE_SECTIONS):
+        issues.append(
+            ValidationIssue(
+                location,
+                "missing section: ## Synthetic Fixture Notice or ## Generation Note",
+            )
+        )
+    issues.extend(validate_fit_scores(text, location))
+    issues.extend(validate_evidence_lines(text, location))
+    issues.extend(validate_source_appendix_labels(text, location, allowed_source_labels))
+    issues.extend(validate_real_demo_language(text, location))
     return issues
 
 
@@ -167,15 +379,22 @@ def validate_skill_file(root):
 
 def validate_reports(root):
     report_dir = root / "skills" / "find-my-supervisor" / "examples" / "reports"
-    expected = ["synthetic_cs_ai_shortlist.md", "synthetic_math_shortlist.md"]
+    expected = [
+        "synthetic_cs_ai_shortlist.md",
+        "synthetic_math_shortlist.md",
+        "real_hkust_trustworthy_llm_demo.md",
+    ]
     issues = []
+    allowed_source_labels = load_allowed_source_labels(root)
     for filename in expected:
         path = report_dir / filename
         if not path.exists():
             issues.append(ValidationIssue(str(path), "missing report example"))
-            continue
+    if not report_dir.exists():
+        return issues
+    for path in sorted(report_dir.glob("*.md")):
         text = path.read_text(encoding="utf-8")
-        issues.extend(validate_markdown_sections(text, REPORT_REQUIRED_SECTIONS, str(path)))
+        issues.extend(validate_report_quality(text, str(path), allowed_source_labels))
     return issues
 
 
