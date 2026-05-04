@@ -47,6 +47,23 @@ REPORT_REQUIRED_SECTIONS = [
     "## Source Appendix",
     "## Next Actions",
 ]
+REFERENCE_REQUIRED_FILES = {
+    "source-protocol.md": [
+        "## Source Priority",
+        "## Minimum Evidence For Recommendation",
+        "## Publication Handling",
+        "## Identity Matching",
+        "## Evidence Labels",
+    ],
+    "risk-policy.md": [
+        "## Purpose",
+        "## Allowed Risk Categories",
+        "## Credibility Levels",
+        "## Handling Community Information",
+        "## Report Language",
+    ],
+    "report-template.md": REPORT_REQUIRED_SECTIONS,
+}
 
 
 def load_json(path):
@@ -150,11 +167,25 @@ def validate_reports(root):
     return issues
 
 
+def validate_reference_files(root):
+    reference_dir = root / "skills" / "find-my-supervisor" / "references"
+    issues = []
+    for filename, sections in REFERENCE_REQUIRED_FILES.items():
+        path = reference_dir / filename
+        if not path.exists():
+            issues.append(ValidationIssue(str(path), "missing reference file"))
+            continue
+        text = path.read_text(encoding="utf-8")
+        issues.extend(validate_markdown_sections(text, sections, str(path)))
+    return issues
+
+
 def run_all(root):
     issues = []
     issues.extend(validate_schema_files(root))
     issues.extend(validate_profile_examples(root))
     issues.extend(validate_skill_file(root))
+    issues.extend(validate_reference_files(root))
     return issues
 
 

@@ -53,7 +53,7 @@ Never present anonymous or weakly sourced claims as fact. Separate facts, infere
 
 ## Output
 
-Produce a Markdown report. Include:
+Produce a Markdown report using `references/report-template.md`. Include:
 
 - student profile summary
 - ranked shortlist of 5-12 supervisors when enough candidates exist
@@ -72,13 +72,13 @@ Currently available references:
 
 - `references/workflow.md`
 - `references/intake-protocol.md`
+- `references/source-protocol.md`
+- `references/risk-policy.md`
+- `references/report-template.md`
 - `schemas/student-search-profile.schema.json`
 - `schemas/report-summary.schema.json`
 
 Planned references added by later tasks:
 
-- `references/source-protocol.md`
-- `references/risk-policy.md`
-- `references/report-template.md`
 - `references/rubrics/cs-ai.md`
 - `references/rubrics/math-subfields.md`
