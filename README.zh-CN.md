@@ -143,6 +143,15 @@ python tools/install_integrity_check.py "$target"
 - 建议问师兄师姐的问题
 - 下一步 shortlist、核查问题和个性化沟通准备
 
+## 报告质量体系
+
+这个 skill pack 现在包含一份人工评审 rubric 和一份失败模式清单：
+
+- [report-quality-rubric.md](skills/find-my-supervisor/references/report-quality-rubric.md)
+- [failure-modes.md](skills/find-my-supervisor/references/failure-modes.md)
+
+它们的作用是让报告保持公开来源支撑、谨慎表达和可核查性。当前目标仍然是 CS/AI 与数学方向的强垂类工具，不是通用导师搜索平台，也不是网站路线。
+
 ## 数学方向如何评估
 
 数学不是一个统一评分模型。这个 skill pack 会区分：
@@ -173,7 +182,7 @@ python tools/install_integrity_check.py "$target"
 
 可以从两份中文材料开始：
 
-- [中文发布说明](docs/launch-note.zh-CN.md)：适合放在项目介绍、社群转发或演示前阅读，包含一句话定位、适合谁、不适合谁、使用步骤、示例输入、输出说明和安全边界。
+- [中文项目说明](docs/launch-note.zh-CN.md)：适合做项目介绍、演示前阅读，包含一句话定位、适合谁、不适合谁、使用步骤、示例输入、输出说明和安全边界。
 - [中文演示脚本](docs/demo-script.zh-CN.md)：适合录 60-90 秒视频或做图文演示，按“定位 -> 输入 -> 输出 -> 安全边界 -> 技术结构”的顺序讲清楚。
 
 展示时建议直接打开一个真实 demo 报告，例如 HKUST trustworthy LLM/NLP 场景或浙江大学计算数学/反问题场景。先说明学生 profile 和公开来源约束，再展示 shortlist、fit scores、Fact / Inference / Unknown、Questions To Ask 和 Source Appendix。重点不是“这个导师好不好”，而是“为什么这个候选人可能匹配、证据来自哪里、还有哪些未知项需要继续核查”。

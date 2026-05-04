@@ -134,6 +134,15 @@ For each recommended supervisor, the report should include:
 - questions to ask current students or alumni
 - next-step shortlist and outreach plan
 
+## Report Quality
+
+The skill pack includes a human review rubric and failure-mode catalog:
+
+- [report-quality-rubric.md](skills/find-my-supervisor/references/report-quality-rubric.md)
+- [failure-modes.md](skills/find-my-supervisor/references/failure-modes.md)
+
+These references are meant to keep reports source-backed, cautious, and useful inside the current CS/AI and mathematics vertical scope.
+
 ## Supported Scope
 
 First vertical:
