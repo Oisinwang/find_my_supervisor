@@ -154,6 +154,7 @@ def run_all(root):
     issues = []
     issues.extend(validate_schema_files(root))
     issues.extend(validate_profile_examples(root))
+    issues.extend(validate_skill_file(root))
     return issues
 
 
