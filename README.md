@@ -2,6 +2,8 @@
 
 Evidence-backed supervisor due diligence for graduate applicants.
 
+[中文说明](README.zh-CN.md)
+
 Find My Supervisor is the skills route version of a productized agent workflow for helping students screen and compare potential research supervisors from public sources. It starts with the high-demand China/Hong Kong graduate application scenario: CS/AI and mathematics applicants targeting Mainland China 985 universities, CAS/UCAS institutes, and HKU/CUHK/HKUST.
 
 It is not a website, a public rating platform, or a cold-email bot. It is a reproducible research workflow that turns a student's goals into a source-backed supervisor shortlist.
@@ -20,13 +22,39 @@ This skill pack is designed to make that investigation structured, cautious, and
 
 ## Quick Start
 
-Open the main skill:
+Clone the repository:
+
+```powershell
+git clone https://github.com/Oisinwang/find_my_supervisor.git
+cd find_my_supervisor
+```
+
+Open the main skill directly:
 
 ```text
 skills/find-my-supervisor/SKILL.md
 ```
 
-Use it with a compatible agent runtime by giving the agent a profile like:
+Or install the skill into a folder-based agent runtime.
+
+Codex-style local install on Windows PowerShell:
+
+```powershell
+$target = "$HOME\.codex\skills\find-my-supervisor"
+New-Item -ItemType Directory -Force $target | Out-Null
+Copy-Item -Recurse -Force ".\skills\find-my-supervisor\*" $target
+```
+
+Codex-style local install on macOS/Linux:
+
+```bash
+mkdir -p ~/.codex/skills/find-my-supervisor
+cp -R skills/find-my-supervisor/. ~/.codex/skills/find-my-supervisor/
+```
+
+Claude-style or other folder-based runtimes use the same idea: copy `skills/find-my-supervisor/` into the runtime's skills directory, preserving the `SKILL.md`, `references/`, `schemas/`, and `examples/` files together.
+
+Then ask your agent to use `find-my-supervisor` with a profile like:
 
 ```yaml
 field: math
@@ -47,6 +75,29 @@ background_summary: >
 ```
 
 The expected output is a Markdown shortlist report with evidence, fit scores, risks, unknowns, and next actions.
+
+## Invocation Template
+
+```text
+Use the find-my-supervisor skill to create an evidence-backed supervisor
+shortlist report.
+
+Profile:
+- field:
+- subfield:
+- application_path:
+- target_scope:
+- research_interests:
+- career_orientation:
+- background_summary:
+
+Requirements:
+- use public sources only
+- label facts, inferences, and unknowns
+- include source links
+- include the five fit scores
+- do not use community reputation unless clearly labeled as low-confidence
+```
 
 ## What The Report Includes
 
