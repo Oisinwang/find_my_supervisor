@@ -230,6 +230,42 @@ def extract_rank_sections(text):
     return sections
 
 
+def count_source_labels_in_text(text, allowed_source_labels):
+    count = 0
+    for label_match in re.finditer(r"\[([^\[\]]+)\]", remove_markdown_links(text)):
+        labels = [label.strip() for label in label_match.group(1).split("/")]
+        for label in labels:
+            if label in allowed_source_labels and label not in set(["inferred", "unknown", "community"]):
+                count += 1
+    return count
+
+
+def has_exploratory_uncertainty_language(text):
+    lowered = text.lower()
+    phrases = [
+        "only one public source",
+        "maybe list",
+        "exploratory",
+        "insufficient evidence",
+        "source coverage is limited",
+    ]
+    for phrase in phrases:
+        if phrase in lowered:
+            return True
+    return False
+
+
+def validate_ranked_evidence_signals(text, location, allowed_source_labels):
+    issues = []
+    rank_sections = extract_rank_sections(text)
+    if not rank_sections:
+        rank_sections = [text]
+    for section in rank_sections:
+        if count_source_labels_in_text(section, allowed_source_labels) < 2 and not has_exploratory_uncertainty_language(section):
+            issues.append(ValidationIssue(location, "ranked supervisor has fewer than two source-labeled evidence mentions"))
+    return issues
+
+
 def extract_fit_scores_block(text):
     match = re.search(r"(?im)^#### Fit Scores\s*$", text)
     if not match:
@@ -341,15 +377,23 @@ def validate_real_demo_certainty_language(text, location):
     if not is_real_demo_report(location):
         return []
     lowered = text.lower()
+    issues = []
     for phrase in REAL_REPORT_CERTAINTY_PHRASES:
         if phrase.lower() in lowered:
-            return [
+            issues.append(
                 ValidationIssue(
                     location,
                     "real demo report contains admissions-certainty language: {}".format(phrase),
                 )
-            ]
-    return []
+            )
+    if "admission is guaranteed" in lowered and "guaranteed admission" not in lowered:
+        issues.append(
+            ValidationIssue(
+                location,
+                "real demo report contains admissions-certainty language: guaranteed admission",
+            )
+        )
+    return issues
 
 
 def validate_report_quality(text, location, allowed_source_labels):
@@ -366,6 +410,7 @@ def validate_report_quality(text, location, allowed_source_labels):
     issues.extend(validate_risk_levels(text, location))
     issues.extend(validate_fit_scores(text, location))
     issues.extend(validate_evidence_lines(text, location))
+    issues.extend(validate_ranked_evidence_signals(text, location, allowed_source_labels))
     issues.extend(validate_source_appendix_labels(text, location, allowed_source_labels))
     issues.extend(validate_real_demo_language(text, location))
     issues.extend(validate_real_demo_certainty_language(text, location))

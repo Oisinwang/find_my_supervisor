@@ -10,6 +10,13 @@ from tools.skill_pack_validator import (
     validate_markdown_sections,
 )
 
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def load_report_fixture(filename):
+    path = ROOT / "tests" / "fixtures" / "report_quality" / filename
+    return path.read_text(encoding="utf-8")
+
 
 class ValidatorUnitTests(unittest.TestCase):
     def test_load_json_reads_utf8_json(self):
@@ -36,6 +43,47 @@ class ValidatorUnitTests(unittest.TestCase):
             [ValidationIssue("demo.md", "missing section: ## Missing")],
         )
 
+    def test_quality_fixture_good_minimal_report_passes(self):
+        text = load_report_fixture("good_minimal_report.md")
+        self.assertEqual(
+            validate_report_quality(
+                text,
+                "real_good_minimal_report.md",
+                set(["official", "bibliographic"]),
+            ),
+            [],
+        )
+
+    def test_quality_fixture_overclaim_report_fails(self):
+        text = load_report_fixture("overclaim_admissions_report.md")
+        issues = validate_report_quality(
+            text,
+            "real_overclaim_admissions_report.md",
+            set(["official", "bibliographic"]),
+        )
+        self.assertIn(
+            ValidationIssue(
+                "real_overclaim_admissions_report.md",
+                "real demo report contains admissions-certainty language: guaranteed admission",
+            ),
+            issues,
+        )
+
+    def test_quality_fixture_weak_cross_field_report_fails_evidence_signal_check(self):
+        text = load_report_fixture("weak_cross_field_report.md")
+        issues = validate_report_quality(
+            text,
+            "real_weak_cross_field_report.md",
+            set(["official", "bibliographic"]),
+        )
+        self.assertIn(
+            ValidationIssue(
+                "real_weak_cross_field_report.md",
+                "ranked supervisor has fewer than two source-labeled evidence mentions",
+            ),
+            issues,
+        )
+
     def test_validate_report_quality_requires_all_fit_scores(self):
         text = """# Demo
 
@@ -56,8 +104,8 @@ Public-source demo.
 - Career fit: 4/5
 - Evidence strength: 4/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -104,8 +152,8 @@ Public-source demo.
 - Career fit: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -153,8 +201,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ### Rank 2: Prof. Two
@@ -168,8 +216,8 @@ Unknown: quota.
 - Career fit: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Maybe List
@@ -262,8 +310,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ### Rank 2: Prof. Two
@@ -278,7 +326,7 @@ Unknown: quota.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-This paragraph has no evidence distinction labels.
+This paragraph has no evidence distinction labels, but cites available sources [official] [bibliographic].
 
 ## Excluded List
 
@@ -295,7 +343,7 @@ This paragraph has no evidence distinction labels.
 ## Next Actions
 """
         self.assertEqual(
-            validate_report_quality(text, "demo.md", set(["official"])),
+            validate_report_quality(text, "demo.md", set(["official", "bibliographic"])),
             [
                 ValidationIssue(
                     "demo.md",
@@ -327,11 +375,11 @@ Public-source demo.
 
 #### Facts
 
-Supported by official source.
+Supported by official source [official].
 
 #### Inferences
 
-Likely fit.
+Likely fit [official].
 
 #### Unknowns
 
@@ -375,8 +423,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -421,8 +469,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -463,8 +511,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -505,8 +553,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -547,8 +595,8 @@ This public-source demo mentions a synthetic validation fixture.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -600,8 +648,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: This report says guaranteed admission.
+Fact: supported by official source [official].
+Inference: This report says guaranteed admission [official].
 Unknown: quota.
 
 ## Maybe List
@@ -654,8 +702,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Maybe List
@@ -703,8 +751,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -750,8 +798,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -798,8 +846,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
@@ -844,8 +892,8 @@ Public-source demo.
 - Evidence strength: 4/5
 - Risk and uncertainty: 3/5
 
-Fact: supported by official source.
-Inference: likely fit.
+Fact: supported by official source [official].
+Inference: likely fit [official].
 Unknown: quota.
 
 ## Risks And Unknowns
