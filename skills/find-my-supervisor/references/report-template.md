@@ -29,6 +29,16 @@ For each recommended supervisor:
 - Evidence strength:
 - Risk level:
 
+#### Fit Scores
+
+List each score from 1 to 5 with one-line evidence-backed explanations:
+
+- Research fit:
+- Path fit:
+- Career fit:
+- Evidence strength:
+- Risk and uncertainty:
+
 #### Recent Work
 
 List up to five recent or representative works with source labels.

@@ -43,6 +43,7 @@ REPORT_REQUIRED_SECTIONS = [
     "## Synthetic Fixture Notice",
     "## Student Profile",
     "## Ranked Shortlist",
+    "#### Fit Scores",
     "## Risks And Unknowns",
     "## Source Appendix",
     "## Next Actions",
