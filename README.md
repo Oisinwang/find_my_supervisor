@@ -122,6 +122,10 @@ Synthetic examples are included for structure validation only:
 
 The synthetic reports use fictional supervisors, papers, labs, and URLs. Real reports must use real public sources and must label evidence quality.
 
+Real public-source demo:
+
+- `skills/find-my-supervisor/examples/reports/real_hkust_trustworthy_llm_demo.md`
+
 ## Local Validation
 
 Run:
@@ -152,6 +156,10 @@ The skill pack should:
 - avoid mass-email automation
 
 It should not claim to predict admission results or guarantee supervisor response.
+
+## License
+
+MIT. See `LICENSE`.
 
 ## Roadmap
 
