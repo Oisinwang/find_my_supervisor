@@ -65,6 +65,17 @@ REFERENCE_REQUIRED_FILES = {
     ],
     "report-template.md": REPORT_REQUIRED_SECTIONS,
 }
+RUBRIC_REQUIRED_FILES = {
+    "cs-ai.md": ["## Core Dimensions", "## Subfield Notes", "## Common Misreads"],
+    "math-subfields.md": [
+        "## Common Math Dimensions",
+        "## Pure Mathematics",
+        "## Applied Mathematics",
+        "## Computational Mathematics",
+        "## Operations Research And Optimization",
+        "## Statistics And Probability",
+    ],
+}
 
 
 def load_json(path):
@@ -181,12 +192,26 @@ def validate_reference_files(root):
     return issues
 
 
+def validate_rubrics(root):
+    rubric_dir = root / "skills" / "find-my-supervisor" / "references" / "rubrics"
+    issues = []
+    for filename, sections in RUBRIC_REQUIRED_FILES.items():
+        path = rubric_dir / filename
+        if not path.exists():
+            issues.append(ValidationIssue(str(path), "missing rubric file"))
+            continue
+        text = path.read_text(encoding="utf-8")
+        issues.extend(validate_markdown_sections(text, sections, str(path)))
+    return issues
+
+
 def run_all(root):
     issues = []
     issues.extend(validate_schema_files(root))
     issues.extend(validate_profile_examples(root))
     issues.extend(validate_skill_file(root))
     issues.extend(validate_reference_files(root))
+    issues.extend(validate_rubrics(root))
     return issues
 
 

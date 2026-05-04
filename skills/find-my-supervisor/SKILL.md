@@ -75,10 +75,7 @@ Currently available references:
 - `references/source-protocol.md`
 - `references/risk-policy.md`
 - `references/report-template.md`
-- `schemas/student-search-profile.schema.json`
-- `schemas/report-summary.schema.json`
-
-Planned references added by later tasks:
-
 - `references/rubrics/cs-ai.md`
 - `references/rubrics/math-subfields.md`
+- `schemas/student-search-profile.schema.json`
+- `schemas/report-summary.schema.json`
