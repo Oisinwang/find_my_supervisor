@@ -54,6 +54,27 @@ cp -R skills/find-my-supervisor/. ~/.codex/skills/find-my-supervisor/
 
 Claude-style or other folder-based runtimes use the same idea: copy `skills/find-my-supervisor/` into the runtime's skills directory, preserving the `SKILL.md`, `references/`, `schemas/`, and `examples/` files together.
 
+## Verify Installation
+
+After copying the skill pack, validate that the installed directory is complete:
+
+Windows PowerShell:
+
+```powershell
+$target = "$HOME\.codex\skills\find-my-supervisor"
+python .\tools\install_integrity_check.py $target
+```
+
+macOS/Linux:
+
+```bash
+target="$HOME/.codex/skills/find-my-supervisor"
+python tools/install_integrity_check.py "$target"
+```
+
+For a full temporary-directory install trial that does not write to global skill
+directories, see [docs/install-test.md](docs/install-test.md).
+
 Then ask your agent to use `find-my-supervisor` with a profile like:
 
 ```yaml
@@ -155,6 +176,7 @@ skills/find-my-supervisor/
       *.md
 
 tools/
+  install_integrity_check.py
   skill_pack_validator.py
 
 tests/
@@ -190,7 +212,7 @@ python tools/skill_pack_validator.py
 Expected:
 
 ```text
-Ran 6 tests
+Ran ... tests
 OK
 
 Skill pack validation passed.

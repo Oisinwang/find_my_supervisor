@@ -78,6 +78,27 @@ skills/find-my-supervisor/
   examples/
 ```
 
+## 验证安装成功
+
+复制 skill pack 之后，可以校验安装目录是否完整：
+
+Windows PowerShell：
+
+```powershell
+$target = "$HOME\.codex\skills\find-my-supervisor"
+python .\tools\install_integrity_check.py $target
+```
+
+macOS/Linux：
+
+```bash
+target="$HOME/.codex/skills/find-my-supervisor"
+python tools/install_integrity_check.py "$target"
+```
+
+如果你想跑一次不写入全局 skills 目录的临时目录安装演练，请看
+[docs/install-test.md](docs/install-test.md)。
+
 ## 怎么调用
 
 给 agent 一个结构化 profile，然后要求它使用 `find-my-supervisor`：
@@ -169,7 +190,7 @@ python tools/skill_pack_validator.py
 期望结果：
 
 ```text
-Ran 6 tests
+Ran ... tests
 OK
 
 Skill pack validation passed.
