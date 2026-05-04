@@ -142,8 +142,9 @@ skills/find-my-supervisor/
 真实公开来源 demo：
 
 - `skills/find-my-supervisor/examples/reports/real_hkust_trustworthy_llm_demo.md`
+- `skills/find-my-supervisor/examples/reports/real_mainland_math_demo.md`
 
-真实 demo 的窄场景是 `HKUST + trustworthy LLM/NLP reasoning + direct PhD / research MPhil`。它只使用公开网页、HKUST 官方页面和公开 publication/profile 页面，不使用社区评价。
+其中 HKUST demo 的窄场景是 `HKUST + trustworthy LLM/NLP reasoning + direct PhD / research MPhil`；大陆数学 demo 的窄场景是 `浙江大学数学科学学院 + inverse problems / wave scattering / scientific computing + 直博`。真实 demo 只使用公开网页、官方页面和公开 publication/profile 页面，不使用社区评价。
 
 ## 本地校验
 

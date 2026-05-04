@@ -173,9 +173,10 @@ Synthetic examples are included for structure validation only:
 
 The synthetic reports use fictional supervisors, papers, labs, and URLs. Real reports must use real public sources and must label evidence quality.
 
-Real public-source demo:
+Real public-source demos:
 
 - `skills/find-my-supervisor/examples/reports/real_hkust_trustworthy_llm_demo.md`
+- `skills/find-my-supervisor/examples/reports/real_mainland_math_demo.md`
 
 ## Local Validation
 
