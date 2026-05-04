@@ -212,6 +212,7 @@ def run_all(root):
     issues.extend(validate_skill_file(root))
     issues.extend(validate_reference_files(root))
     issues.extend(validate_rubrics(root))
+    issues.extend(validate_reports(root))
     return issues
 
 
