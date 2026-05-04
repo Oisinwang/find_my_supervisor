@@ -2,16 +2,16 @@
 
 ## Common Math Dimensions
 
-Score each dimension from 1 to 5 and explain the score.
+Publish the five report scores from 1 to 5: research fit, path fit, career fit, evidence strength, and risk/uncertainty. Use the additional math-specific signals below as evidence inputs, not as separate published scores.
 
-- Direction match: proximity between the student's subfield and the supervisor's actual recent work.
-- Mathematical preparation fit: whether the student's coursework and project background match the expected level.
-- Research continuity: whether recent publications, seminars, or projects show a coherent program.
-- Advising and training signal: student theses, group activity, seminars, or alumni evidence when public.
+- Research fit: proximity between the student's subfield and the supervisor's actual recent work.
 - Path fit: suitability for recommendation-based master's, direct PhD, or research master's.
-- Career fit: academic, industry research, quant finance, teaching, or engineering.
+- Career fit: alignment with academic, industry research, quant finance, teaching, or engineering goals.
 - Evidence strength: official, bibliographic, and group-level public evidence.
 - Risk and uncertainty: sparse information, direction ambiguity, path uncertainty, or preparation gap.
+- Mathematical preparation signal: whether the student's coursework and project background match the expected level; use this mainly for path fit and risk/uncertainty.
+- Research continuity signal: whether recent publications, seminars, or projects show a coherent program; use this mainly for research fit and evidence strength.
+- Advising and training signal: student theses, group activity, seminars, or alumni evidence when public; use this mainly for path fit and risk/uncertainty.
 
 ## Pure Mathematics
 

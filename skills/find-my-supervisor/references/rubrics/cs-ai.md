@@ -2,15 +2,15 @@
 
 ## Core Dimensions
 
-Score each dimension from 1 to 5 and explain the score.
+Publish the five report scores from 1 to 5: research fit, path fit, career fit, evidence strength, and risk/uncertainty. Use the additional signals below as evidence inputs, not as separate published scores.
 
 - Research fit: direct match between the student's interests and the supervisor's recent work.
-- Recent activity: visible output in the last three calendar years.
-- Student training signal: public evidence of student first-author papers, lab activity, theses, or alumni.
 - Path fit: suitability for master's recommendation, direct PhD, or research master's.
 - Career fit: alignment with academic, industry research, engineering, or other career goals.
 - Evidence strength: quality and quantity of public sources.
 - Risk and uncertainty: missing information, identity ambiguity, path mismatch, or weak recent activity.
+- Recent activity signal: visible output in the last three calendar years; use this mainly for research fit and evidence strength.
+- Student training signal: public evidence of student first-author papers, lab activity, theses, or alumni; use this mainly for path fit and risk/uncertainty.
 
 ## Subfield Notes
 
