@@ -1,3 +1,7 @@
 .worktrees/
 __pycache__/
 *.pyc
+_tmp_agents_md_output.md
+_tmp_legacy_agents_md_output.md
+_tmp_gsd_agents_key/
+get-shit-done-codex/
