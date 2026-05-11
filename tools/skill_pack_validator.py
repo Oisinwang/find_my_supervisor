@@ -2,6 +2,11 @@ import json
 import re
 from pathlib import Path
 
+try:
+    from tools.skill_pack_manifest import REQUIRED_REPORT_EXAMPLES
+except ImportError:
+    from skill_pack_manifest import REQUIRED_REPORT_EXAMPLES
+
 
 class ValidationIssue(object):
     def __init__(self, location, message):
@@ -1164,15 +1169,10 @@ def validate_skill_file(root):
 
 def validate_reports(root):
     report_dir = root / "skills" / "find-my-supervisor" / "examples" / "reports"
-    expected = [
-        "synthetic_cs_ai_shortlist.md",
-        "synthetic_math_shortlist.md",
-        "real_hkust_trustworthy_llm_demo.md",
-    ]
     issues = []
     allowed_source_labels = load_allowed_source_labels(root)
-    for filename in expected:
-        path = report_dir / filename
+    for relative_path in REQUIRED_REPORT_EXAMPLES:
+        path = root / "skills" / "find-my-supervisor" / relative_path
         if not path.exists():
             issues.append(ValidationIssue(str(path), "missing report example"))
     if not report_dir.exists():

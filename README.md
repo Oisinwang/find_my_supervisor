@@ -6,7 +6,7 @@ Evidence-backed supervisor due diligence for graduate applicants.
 
 Find My Supervisor is the skills route version of a productized agent workflow for helping students screen and compare potential research supervisors from public sources. It starts with the high-demand China/Hong Kong graduate application scenario: CS/AI and mathematics applicants targeting Mainland China 985 universities, CAS/UCAS institutes, and HKU/CUHK/HKUST.
 
-It is not a website, a public rating platform, or a cold-email bot. It is a reproducible research workflow that turns a student's goals into a source-backed supervisor shortlist.
+It is not a website, a public rating platform, or a message-sending tool. It is a reproducible research workflow that turns a student's goals into a source-backed supervisor shortlist and student-controlled communication preparation.
 
 ## Why This Exists
 
@@ -132,7 +132,7 @@ For each recommended supervisor, the report should include:
 - source appendix with labels such as `official`, `bibliographic`, `lab_or_homepage`, `community`, or `unknown`
 - questions to ask the supervisor
 - questions to ask current students or alumni
-- next-step shortlist and outreach plan
+- next-step shortlist and communication-preparation plan
 
 ## Report Quality
 
@@ -236,7 +236,7 @@ The skill pack should:
 - label community reputation as optional and low-confidence unless corroborated
 - avoid anonymous claims as factual recommendations
 - avoid inventing papers, venues, student outcomes, or admissions certainty
-- avoid mass-email automation
+- avoid sending or automating messages; the skill only helps the student prepare questions and communication notes
 
 It should not claim to predict admission results or guarantee supervisor response.
 

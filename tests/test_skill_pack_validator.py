@@ -8,7 +8,10 @@ from tools.skill_pack_validator import (
     require_keys,
     validate_report_quality,
     validate_markdown_sections,
+    validate_reports,
 )
+from tools.skill_pack_manifest import REQUIRED_REPORT_EXAMPLES
+from tools.install_integrity_check import REQUIRED_FILES
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -108,6 +111,53 @@ def valid_rank_body(extra=None):
 
 
 class ValidatorUnitTests(unittest.TestCase):
+    def test_validator_required_reports_include_mainland_math_demo(self):
+        self.assertIn(
+            "examples/reports/real_mainland_math_demo.md",
+            REQUIRED_REPORT_EXAMPLES,
+        )
+
+    def test_validator_and_install_required_reports_stay_in_sync(self):
+        install_reports = sorted(
+            path for path in REQUIRED_FILES if path.startswith("examples/reports/")
+        )
+        self.assertEqual(sorted(REQUIRED_REPORT_EXAMPLES), install_reports)
+
+    def test_validate_reports_reports_missing_required_mainland_math_demo(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            report_dir = root / "skills" / "find-my-supervisor" / "examples" / "reports"
+            report_dir.mkdir(parents=True)
+            (root / "skills" / "find-my-supervisor" / "references").mkdir()
+            (root / "skills" / "find-my-supervisor" / "references" / "source-protocol.md").write_text(
+                "## Evidence Labels\n- official\n- bibliographic\n",
+                encoding="utf-8",
+            )
+            for relative_path in REQUIRED_REPORT_EXAMPLES:
+                if relative_path.endswith("real_mainland_math_demo.md"):
+                    continue
+                (root / "skills" / "find-my-supervisor" / relative_path).write_text(
+                    "# placeholder\n",
+                    encoding="utf-8",
+                )
+
+            issues = validate_reports(root)
+
+            self.assertIn(
+                ValidationIssue(
+                    str(
+                        root
+                        / "skills"
+                        / "find-my-supervisor"
+                        / "examples"
+                        / "reports"
+                        / "real_mainland_math_demo.md"
+                    ),
+                    "missing report example",
+                ),
+                issues,
+            )
+
     def test_load_json_reads_utf8_json(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "sample.json"

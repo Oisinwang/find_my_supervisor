@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from tools.install_integrity_check import validate_installation
+from tools.skill_pack_manifest import REQUIRED_REPORT_EXAMPLES
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,6 +42,39 @@ class InstallIntegrityTests(unittest.TestCase):
             issues = validate_installation(skill_dir)
 
             self.assertIn("missing required directory: examples/reports", issues)
+
+    def test_missing_report_quality_rubric_is_reported_after_copy(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            skill_dir = Path(tmp) / "skills" / "find-my-supervisor"
+            shutil.copytree(str(SKILL_SOURCE), str(skill_dir))
+            (skill_dir / "references" / "report-quality-rubric.md").rename(
+                skill_dir / "references" / "report-quality-rubric.md.missing"
+            )
+
+            issues = validate_installation(skill_dir)
+
+            self.assertIn(
+                "missing required file: references/report-quality-rubric.md",
+                issues,
+            )
+
+    def test_missing_failure_modes_is_reported_after_copy(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            skill_dir = Path(tmp) / "skills" / "find-my-supervisor"
+            shutil.copytree(str(SKILL_SOURCE), str(skill_dir))
+            (skill_dir / "references" / "failure-modes.md").rename(
+                skill_dir / "references" / "failure-modes.md.missing"
+            )
+
+            issues = validate_installation(skill_dir)
+
+            self.assertIn("missing required file: references/failure-modes.md", issues)
+
+    def test_install_required_reports_include_mainland_math_demo(self):
+        self.assertIn(
+            "examples/reports/real_mainland_math_demo.md",
+            REQUIRED_REPORT_EXAMPLES,
+        )
 
 
 if __name__ == "__main__":

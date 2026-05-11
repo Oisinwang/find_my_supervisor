@@ -17,7 +17,7 @@ The first supported scope is:
 - CAS/UCAS institutes and labs
 - Hong Kong research universities: HKU, CUHK, and HKUST
 
-Do not use this skill to create a website, scrape private data, mass-email supervisors, or publish anonymous reputation claims.
+Do not use this skill to create a website, scrape private data, send or automate messages to supervisors, or publish anonymous reputation claims. The skill may help prepare student-controlled questions and communication notes only.
 
 ## Required Inputs
 
@@ -64,7 +64,7 @@ Produce a Markdown report using `references/report-template.md`. Include:
 - risks and unknowns
 - questions to ask supervisors
 - questions to ask current students or alumni
-- next action plan
+- next action and communication-preparation plan
 
 Before finalizing a report, check it against `references/report-quality-rubric.md` and avoid the patterns in `references/failure-modes.md`.
 

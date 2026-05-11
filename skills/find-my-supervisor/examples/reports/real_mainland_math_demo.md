@@ -6,7 +6,7 @@ Search date: 2026-05-04.
 
 This is a public-source demo report for the Find My Supervisor skill pack. The student profile is hypothetical. Supervisor information, recent work, and program evidence are based on public Zhejiang University pages and publication/profile pages linked in the source appendix.
 
-This report is not admissions advice and does not claim that any supervisor currently has quota or is accepting students. Public pages support the doctoral admissions route and faculty doctoral-supervisor status; availability, quota, application timing, and current project openings must be verified through official admissions channels and direct contact.
+This report is not admissions advice and does not claim that any supervisor currently has quota or is accepting students. It does not send or automate messages. Public pages support the doctoral admissions route and faculty doctoral-supervisor status; availability, quota, application timing, and current project openings must be verified through official admissions channels and student-controlled direct contact.
 
 ## Student Profile
 
@@ -179,7 +179,7 @@ Unknown: Whether there is current direct PhD quota under Gang Bao personally, wh
 
 1. Verify the official School of Mathematical Sciences 2026 doctoral admissions notice, especially direct PhD eligibility, materials, timing, and whether the applicant must list only school/major/direction or also identify a supervisor later.
 2. Read one recent paper from each ranked supervisor and write a 3-5 sentence fit note connecting the paper to the applicant's own coursework/project experience.
-3. Contact Xiang Xu and Wangtao Lu first with a concise research-fit email asking whether there may be direct PhD opportunities in inverse problems, wave/scattering, or scientific computing for the relevant intake.
-4. Contact Gang Bao only with a highly prepared note, because the public evidence suggests exceptional research fit but higher uncertainty around direct availability and advising structure.
+3. Prepare a student-sent inquiry note for Xiang Xu and Wangtao Lu first, asking whether there may be direct PhD opportunities in inverse problems, wave/scattering, or scientific computing for the relevant intake.
+4. If the student chooses to contact Gang Bao, prepare a highly specific note first, because the public evidence suggests exceptional research fit but higher uncertainty around direct availability and advising structure.
 5. Ask current students, where reachable through official pages or supervisor introductions, about advising cadence, first-year project setup, computation resources, proof/computation balance, and direct PhD expectations.
 6. Expand the shortlist to at least two comparison clusters before final decisions, such as another Mainland 985 math school or a CAS/UCAS institute with inverse problems and scientific computing groups.

@@ -6,7 +6,7 @@ Search date: 2026-05-04.
 
 This is a public-source demo report for the Find My Supervisor skill pack. The student profile is hypothetical. Supervisor information, recent work, and program evidence are based on public HKUST pages and publication/profile pages linked in the source appendix.
 
-This report is not admissions advice and does not claim that any supervisor currently has quota or is accepting students. Verify availability, funding, and fit through official admissions channels and direct contact.
+This report is not admissions advice and does not claim that any supervisor currently has quota or is accepting students. It does not send or automate messages. Verify availability, funding, and fit through official admissions channels and student-controlled direct contact.
 
 ## Student Profile
 
@@ -183,7 +183,7 @@ Unknown: Current supervision capacity, whether CSE students can be jointly super
 ## Next Actions
 
 1. Read one recent paper from each ranked supervisor and write a 3-5 sentence fit note.
-2. Email the top two supervisors first, asking whether they have openings in trustworthy LLM/NLP reasoning for the next intake.
+2. Prepare a student-sent inquiry note for the top two supervisors, asking whether they have openings in trustworthy LLM/NLP reasoning for the next intake.
 3. Ask current students about advising cadence, project ownership, compute/data access, and first-author opportunities.
 4. Verify whether the application should go through CSE or ECE before preparing materials for Pascale Fung.
 5. Re-run the shortlist with additional HKUST or Hong Kong targets if the student wants broader coverage beyond this narrow demo.
