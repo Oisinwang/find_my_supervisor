@@ -76,3 +76,4 @@ Unknown: current quota, project availability, and advising fit require direct ve
 1. Read the recent paper and write a short fit note.
 2. Verify official admissions path and timing.
 3. Ask the supervisor about current openings and project fit.
+4. Ask current students or alumni about advising style and project ownership.
